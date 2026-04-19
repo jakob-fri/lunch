@@ -45,6 +45,19 @@
     .empty { font-size: 0.82rem; color: #bbb; font-style: italic; }
     .error { font-size: 0.82rem; color: #c00; }
     footer { margin-top: 2rem; font-size: 0.72rem; color: #ccc; text-align: center; }
+    .suggest {
+      display: inline-block;
+      margin-top: 1.25rem;
+      padding: 0.5rem 1rem;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      color: #555;
+      text-decoration: none;
+      transition: border-color .15s, color .15s;
+    }
+    .suggest:hover { border-color: #aaa; color: #111; }
   </style>
 </head>
 <body>
@@ -99,6 +112,9 @@
           <div class="empty">Ingen lunch hittad</div>
         </div>
       </div>
+    </div>
+    <div style="text-align:center">
+      <a class="suggest" href="https://github.com/jakob-fri/lunch/issues/new?title=Restaurangf%C3%B6rslag%3A+&body=**Restaurang%3A**+%0A**Lunch-URL%3A**+%0A**Varf%C3%B6r+ska+den+vara+med%3F**+%0A" target="_blank" rel="noopener">+ Föreslå restaurang</a>
     </div>
     <footer>Uppdaterad automatiskt · GitHub Actions + Ollama</footer>
   </div>
