@@ -1,0 +1,7 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Local Lunch" type="CompoundRunConfigurationType">
+    <toRun name="Generate (Ollama)" type="MavenRunConfiguration" />
+    <toRun name="Dev Server" type="MavenRunConfiguration" />
+    <method v="2" />
+  </configuration>
+</component>

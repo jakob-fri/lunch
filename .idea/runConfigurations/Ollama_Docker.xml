@@ -1,0 +1,21 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Ollama Docker" type="docker-deploy" factoryName="docker-image" server-name="Docker">
+    <deployment type="docker-image">
+      <settings>
+        <option name="imageTag" value="ollama/ollama:latest" />
+        <option name="containerName" value="ollama" />
+        <option name="command" value="-c &quot;ollama serve &amp; sleep 5 &amp;&amp; ollama pull llama3.2:3b &amp;&amp; wait&quot;" />
+        <option name="entrypoint" value="/bin/sh" />
+        <option name="portBindings">
+          <list>
+            <DockerPortBindingImpl>
+              <option name="containerPort" value="11434" />
+              <option name="hostPort" value="11434" />
+            </DockerPortBindingImpl>
+          </list>
+        </option>
+      </settings>
+    </deployment>
+    <method v="2" />
+  </configuration>
+</component>
