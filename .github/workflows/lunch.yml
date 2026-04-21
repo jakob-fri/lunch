@@ -2,8 +2,7 @@ name: Update Lunch Menus
 
 on:
   schedule:
-    # 07:00 UTC = 09:00 CEST, weekdays
-    - cron: '0 7 * * 1-5'
+    - cron: '22 6 *  * 1-5'
   workflow_dispatch:
 
 permissions:
