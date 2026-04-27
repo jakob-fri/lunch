@@ -1,20 +1,22 @@
 package se.brpsystems.lunch;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class PageGeneratorTest {
 
-    private static final LocalDate MONDAY = LocalDate.of(2026, 4, 20); // a Monday
+    private static final LocalDate MONDAY = LocalDate.of(2026, 4, 20);
 
     private final PageGenerator generator = new PageGenerator();
+
+    private static Restaurant r(String name, String url) {
+        return new Restaurant(name, url, null);
+    }
 
     @Test
     void generatesHtmlString() {
@@ -34,7 +36,7 @@ class PageGeneratorTest {
     @Test
     void rendersMenuAsListItems() {
         var result = new LunchResult(
-                new Restaurant("Kolgrillen", "https://kolgrillen.se/lunch"),
+                r("Kolgrillen", "https://kolgrillen.se/lunch"),
                 "Pasta Bolognese 95kr\nVegetarisk lasagne 90kr",
                 null
         );
@@ -50,7 +52,7 @@ class PageGeneratorTest {
     @Test
     void showsEmptyStateWhenNoMenuFound() {
         var result = new LunchResult(
-                new Restaurant("Stängt", "https://example.com"),
+                r("Stängt", "https://example.com"),
                 "Ingen lunch hittad.",
                 null
         );
@@ -64,7 +66,7 @@ class PageGeneratorTest {
     @Test
     void escapesHtmlInMenuContent() {
         var result = new LunchResult(
-                new Restaurant("Café <Test> & More", "https://example.com"),
+                r("Café <Test> & More", "https://example.com"),
                 "Menu with <script>alert('xss')</script>",
                 null
         );
@@ -73,13 +75,13 @@ class PageGeneratorTest {
 
         assertFalse(html.contains("<script>"), "Raw <script> tag must not appear in output");
         assertTrue(html.contains("&lt;script&gt;"));
-        assertTrue(html.contains("Caf\u00e9 &lt;Test&gt; &amp; More"));
+        assertTrue(html.contains("Café &lt;Test&gt; &amp; More"));
     }
 
     @Test
     void showsErrorClassWhenScrapingFailed() {
         var result = new LunchResult(
-                new Restaurant("Broken", "https://broken.example"),
+                r("Broken", "https://broken.example"),
                 null,
                 "Connection refused"
         );
@@ -94,9 +96,9 @@ class PageGeneratorTest {
     @Test
     void handlesMultipleRestaurants() {
         var results = List.of(
-                new LunchResult(new Restaurant("Alpha", "https://alpha.se"), "Soup", null),
-                new LunchResult(new Restaurant("Beta", "https://beta.se"), null, "Timeout"),
-                new LunchResult(new Restaurant("Gamma", "https://gamma.se"), "Steak", null)
+                new LunchResult(r("Alpha", "https://alpha.se"), "Soup", null),
+                new LunchResult(r("Beta", "https://beta.se"), null, "Timeout"),
+                new LunchResult(r("Gamma", "https://gamma.se"), "Steak", null)
         );
 
         String html = generator.generate(results, MONDAY);
@@ -117,5 +119,42 @@ class PageGeneratorTest {
         assertTrue(html.contains("<html"));
         assertTrue(html.contains("</html>"));
         assertTrue(html.contains("<meta charset=\"UTF-8\">"));
+    }
+
+    @Test
+    void generateIndexContainsLocationLinks() {
+        String html = generator.generateIndex(
+                Set.of("Innerstaden Linköping"),
+                MONDAY,
+                ""
+        );
+
+        assertTrue(html.contains("innerstaden-linkoping/"), "Should contain slug href");
+        assertTrue(html.contains("Innerstaden Linköping"), "Should contain location name");
+        assertTrue(html.contains("location-card"), "Should use location-card style");
+    }
+
+    @Test
+    void generateLocationPageContainsBackLink() {
+        var results = List.of(new LunchResult(r("Grand", "https://grand.se"), "Soup", null));
+        String html = generator.generateLocationPage("Innerstaden Linköping", results, MONDAY, "");
+
+        assertTrue(html.contains("href=\"../\""), "Should link back to root");
+        assertTrue(html.contains("Alla platser"), "Should have back-link text");
+    }
+
+    @Test
+    void generateLocationPageRendersCards() {
+        var results = List.of(
+                new LunchResult(r("Grand", "https://grand.se"), "Pasta 95kr", null),
+                new LunchResult(r("Yogi", "https://yogi.se"), "Curry 90kr", null)
+        );
+        String html = generator.generateLocationPage("Innerstaden Linköping", results, MONDAY, "");
+
+        assertTrue(html.contains("Grand"));
+        assertTrue(html.contains("Yogi"));
+        assertTrue(html.contains("<li>Pasta 95kr</li>"));
+        assertTrue(html.contains("<li>Curry 90kr</li>"));
+        assertTrue(html.contains("Innerstaden Linköping"));
     }
 }

@@ -1,16 +1,16 @@
 package se.brpsystems.lunch;
 
-import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Base64;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class PageGenerator {
@@ -25,11 +25,65 @@ public class PageGenerator {
     }
 
     public String generate(List<LunchResult> results, LocalDate date, String githubRepo) {
-        String weekday = date.format(WEEKDAY_FMT);
-        String weekdayTitle = weekday.substring(0, 1).toUpperCase() + weekday.substring(1);
+        return generateLocationPage("", results, date, githubRepo);
+    }
+
+    public String generateIndex(Set<String> locationNames, LocalDate date, String githubRepo) {
+        String weekdayTitle = formatWeekday(date);
         String fullDate = date.format(DATE_FMT);
 
         var html = new StringBuilder();
+        appendPageStart(html, weekdayTitle, fullDate, weekdayTitle);
+
+        html.append("    <div class=\"cards\">\n");
+        for (String location : locationNames) {
+            String slug = Main.toSlug(location);
+            html.append("      <a class=\"location-card\" href=\"./%s/\">%s</a>\n"
+                    .formatted(slug, escape(location)));
+        }
+        html.append("    </div>\n");
+
+        String issueUrl = buildIssueUrl(githubRepo);
+        if (!issueUrl.isEmpty()) {
+            html.append("    <div style=\"text-align:center\">\n");
+            html.append("      <a class=\"suggest\" href=\"%s\" target=\"_blank\" rel=\"noopener\">+ Föreslå restaurang</a>\n".formatted(issueUrl));
+            html.append("    </div>\n");
+        }
+
+        appendPageEnd(html);
+        return html.toString();
+    }
+
+    public String generateLocationPage(String location, List<LunchResult> results, LocalDate date, String githubRepo) {
+        String weekdayTitle = formatWeekday(date);
+        String fullDate = date.format(DATE_FMT);
+        String title = location.isEmpty() ? weekdayTitle : escape(location);
+
+        var html = new StringBuilder();
+        appendPageStart(html, title, fullDate, weekdayTitle);
+
+        if (!location.isEmpty()) {
+            html.append("    <a class=\"back-link\" href=\"../\">← Alla platser</a>\n");
+        }
+
+        html.append("    <div class=\"cards\">\n");
+        for (LunchResult result : results) {
+            appendCard(html, result);
+        }
+        html.append("    </div>\n");
+
+        String issueUrl = buildIssueUrl(githubRepo);
+        if (!issueUrl.isEmpty()) {
+            html.append("    <div style=\"text-align:center\">\n");
+            html.append("      <a class=\"suggest\" href=\"%s\" target=\"_blank\" rel=\"noopener\">+ Föreslå restaurang</a>\n".formatted(issueUrl));
+            html.append("    </div>\n");
+        }
+
+        appendPageEnd(html);
+        return html.toString();
+    }
+
+    private void appendPageStart(StringBuilder html, String title, String fullDate, String weekdayTitle) {
         html.append("""
                 <!DOCTYPE html>
                 <html lang="sv">
@@ -50,6 +104,14 @@ public class PageGenerator {
                     header { margin-bottom: 1.25rem; }
                     h1 { font-size: 1.6rem; font-weight: 800; letter-spacing: -0.02em; }
                     .sub { color: #aaa; font-size: 0.8rem; margin-top: 0.2rem; text-transform: capitalize; }
+                    .back-link {
+                      display: inline-block;
+                      margin-bottom: 1rem;
+                      font-size: 0.82rem;
+                      color: #888;
+                      text-decoration: none;
+                    }
+                    .back-link:hover { color: #111; }
                     .cards { display: grid; gap: 0.75rem; }
                     @media (min-width: 520px) { .cards { grid-template-columns: 1fr 1fr; } }
                     .card {
@@ -78,6 +140,25 @@ public class PageGenerator {
                     li:last-child { border-bottom: none; }
                     .empty { font-size: 0.82rem; color: #bbb; font-style: italic; }
                     .error { font-size: 0.82rem; color: #c00; }
+                    .location-card {
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      padding: 1.5rem 1rem;
+                      background: #fff;
+                      border-radius: 12px;
+                      box-shadow: 0 1px 3px rgba(0,0,0,.08), 0 0 0 1px rgba(0,0,0,.04);
+                      font-weight: 700;
+                      font-size: 1rem;
+                      color: #111;
+                      text-decoration: none;
+                      text-align: center;
+                      transition: box-shadow .15s, transform .1s;
+                    }
+                    .location-card:hover {
+                      box-shadow: 0 4px 12px rgba(0,0,0,.12), 0 0 0 1px rgba(0,0,0,.06);
+                      transform: translateY(-1px);
+                    }
                     footer { margin-top: 2rem; font-size: 0.72rem; color: #ccc; text-align: center; }
                     .suggest {
                       display: inline-block;
@@ -100,59 +181,75 @@ public class PageGenerator {
                       <h1>%s</h1>
                       <div class="sub">%s</div>
                     </header>
-                    <div class="cards">
-                """.formatted(weekdayTitle, faviconDataUri(), weekdayTitle, fullDate));
+                """.formatted(weekdayTitle, faviconDataUri(), title, fullDate));
+    }
 
-        for (LunchResult result : results) {
-            html.append("      <div class=\"card\">\n");
-            html.append("        <div class=\"card-header\"><div class=\"name\"><a href=\"%s\" target=\"_blank\" rel=\"noopener\">%s</a></div></div>\n"
-                    .formatted(escape(result.restaurant().url()), escape(result.restaurant().name())));
-            html.append("        <div class=\"card-body\">\n");
-
-            if (!result.success()) {
-                html.append("          <div class=\"error\">%s</div>\n".formatted(escape(result.error())));
-            } else if (isNoMenu(result.menu())) {
-                html.append("          <div class=\"empty\">Ingen lunch hittad</div>\n");
-            } else {
-                html.append("          <ul>\n");
-                menuLines(result.menu())
-                        .forEach(line -> html.append("            <li>%s</li>\n".formatted(escape(line))));
-                html.append("          </ul>\n");
-            }
-
-            html.append("        </div>\n");
-            html.append("      </div>\n");
-        }
-
-        html.append("    </div>\n"); // close .cards
-
-        String issueUrl = buildIssueUrl(githubRepo);
-        if (!issueUrl.isEmpty()) {
-            html.append("    <div style=\"text-align:center\">\n");
-            html.append("      <a class=\"suggest\" href=\"%s\" target=\"_blank\" rel=\"noopener\">+ Föreslå restaurang</a>\n".formatted(issueUrl));
-            html.append("    </div>\n");
-        }
-
+    private void appendPageEnd(StringBuilder html) {
         html.append("""
                     <footer>Uppdaterad automatiskt · GitHub Actions + Ollama</footer>
                   </div>
                 </body>
                 </html>
                 """);
+    }
 
-        return html.toString();
+    private void appendCard(StringBuilder html, LunchResult result) {
+        html.append("      <div class=\"card\">\n");
+        html.append("        <div class=\"card-header\"><div class=\"name\"><a href=\"%s\" target=\"_blank\" rel=\"noopener\">%s</a></div></div>\n"
+                .formatted(escape(result.restaurant().url()), escape(result.restaurant().name())));
+        html.append("        <div class=\"card-body\">\n");
+
+        if (!result.success()) {
+            html.append("          <div class=\"error\">%s</div>\n".formatted(escape(result.error())));
+        } else if (isNoMenu(result.menu())) {
+            html.append("          <div class=\"empty\">Ingen lunch hittad</div>\n");
+        } else {
+            html.append("          <ul>\n");
+            menuLines(result.menu())
+                    .forEach(line -> html.append("            <li>%s</li>\n".formatted(escape(line))));
+            html.append("          </ul>\n");
+        }
+
+        html.append("        </div>\n");
+        html.append("      </div>\n");
+    }
+
+    private String formatWeekday(LocalDate date) {
+        String weekday = date.format(WEEKDAY_FMT);
+        return weekday.substring(0, 1).toUpperCase() + weekday.substring(1);
     }
 
     private List<String> menuLines(String menu) {
-        return Arrays.stream(menu.split("\n"))
+        List<String> lines = Arrays.stream(menu.split("\n"))
                 .map(String::trim)
                 .filter(line -> !line.isEmpty())
                 .collect(Collectors.toList());
+        // Strip stray "ingen lunch" / "no lunch menu" lines when real dish lines exist alongside them
+        boolean hasRealContent = lines.stream().anyMatch(l -> {
+            String ll = l.toLowerCase();
+            return !ll.contains("ingen lunch") && !ll.contains("no lunch menu");
+        });
+        if (hasRealContent) {
+            lines.removeIf(l -> {
+                String ll = l.toLowerCase();
+                return ll.contains("ingen lunch") || ll.contains("no lunch menu");
+            });
+        }
+        return lines;
     }
 
     private boolean isNoMenu(String menu) {
-        String lower = menu.toLowerCase();
-        return lower.contains("ingen lunch") || lower.contains("no lunch menu");
+        List<String> lines = menuLines(menu);
+        // Only "no menu" if there are no real dish lines alongside the phrase
+        boolean hasRealContent = lines.stream().anyMatch(l -> {
+            String ll = l.toLowerCase();
+            return !ll.contains("ingen lunch") && !ll.contains("no lunch menu");
+        });
+        if (hasRealContent) return false;
+        return lines.stream().anyMatch(l -> {
+            String ll = l.toLowerCase();
+            return ll.contains("ingen lunch") || ll.contains("no lunch menu");
+        });
     }
 
     private String faviconDataUri() {

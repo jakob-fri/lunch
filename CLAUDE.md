@@ -10,6 +10,9 @@ Scrapes restaurant websites, sends the text to a local LLM (Ollama) to extract t
 # Build (skips tests, produces fat jar)
 mvn package -DskipTests
 
+# Install Playwright browser (required once after build, and after Playwright version upgrades)
+java -cp target/lunch-1.0-SNAPSHOT-jar-with-dependencies.jar com.microsoft.playwright.CLI install chromium
+
 # Run all tests (needs Docker for the Ollama tests)
 mvn test
 
@@ -54,14 +57,15 @@ The Docker tests use `ProcessBuilder` with the system `docker` command — **not
 
 ## Adding restaurants
 
-Edit `Main.java`:
-```java
-private static final List<Restaurant> RESTAURANTS = List.of(
-    new Restaurant("Grand", "https://www.brasseriegrand.se/lunch"),
-    new Restaurant("Yogi",  "https://restaurangyogi.com/lunch")
-    // add more here
-);
+Edit `src/main/resources/restaurants.yaml`:
+```yaml
+- name: Grand
+  url: https://www.brasseriegrand.se/lunch
+- name: Yogi
+  url: https://restaurangyogi.com/lunch
 ```
+
+A different file can be used via the `LUNCH_RESTAURANTS` env var (or `-Dlunch.restaurants=...` system property) — if the path exists on disk it's loaded directly, otherwise it's resolved from the classpath.
 
 For `MockLlmClient`, add a fixed menu to the `FIXED_MENUS` map to match by name, otherwise a random sample is returned.
 

@@ -106,7 +106,7 @@ class LlmClientDockerTest {
                 Fisksoppa med aioli 110 kr
                 """;
 
-        var restaurant = new Restaurant("Bistro Docker", "https://example.com");
+        var restaurant = new Restaurant("Bistro Docker", "https://example.com", null);
         String menu = client.extractMenu(restaurant.name(), fakePageContent, MONDAY);
 
         System.out.println("LLM output:\n" + menu);

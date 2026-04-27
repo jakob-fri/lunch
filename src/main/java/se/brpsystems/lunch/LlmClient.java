@@ -134,7 +134,7 @@ public class LlmClient implements MenuExtractor {
             // Check for a weekday heading (exact match after stripping punctuation)
             String matchedDay = null;
             for (String day : WEEKDAYS) {
-                if (lower.equals(day)) { matchedDay = day; break; }
+                if (lower.equals(day) || lower.startsWith(day + " ")) { matchedDay = day; break; }
             }
             if (matchedDay != null) {
                 if (inTarget) break; // hit the next weekday — stop

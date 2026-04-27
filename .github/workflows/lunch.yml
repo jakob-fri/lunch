@@ -44,6 +44,9 @@ jobs:
       - name: Build
         run: mvn package -q -DskipTests
 
+      - name: Install Playwright browsers
+        run: java -cp target/lunch-1.0-SNAPSHOT-jar-with-dependencies.jar com.microsoft.playwright.CLI install --with-deps chromium
+
       - name: Run scraper
         env:
           OLLAMA_URL: http://localhost:11434

@@ -21,6 +21,7 @@ class LunchIntegrationTest {
 
     private WireMockServer restaurantServer;
     private WireMockServer ollamaServer;
+    private LunchScraper scraper;
 
     @BeforeEach
     void setUp() {
@@ -28,10 +29,12 @@ class LunchIntegrationTest {
         ollamaServer = new WireMockServer(wireMockConfig().dynamicPort());
         restaurantServer.start();
         ollamaServer.start();
+        scraper = new LunchScraper();
     }
 
     @AfterEach
     void tearDown() {
+        scraper.close();
         restaurantServer.stop();
         ollamaServer.stop();
     }
@@ -56,10 +59,10 @@ class LunchIntegrationTest {
 
         var restaurant = new Restaurant(
                 "Test Bistro",
-                "http://localhost:" + restaurantServer.port() + "/lunch"
+                "http://localhost:" + restaurantServer.port() + "/lunch",
+                null
         );
 
-        var scraper = new LunchScraper();
         var llm = new LlmClient("http://localhost:" + ollamaServer.port(), "llama3.2:1b");
         var generator = new PageGenerator();
 
@@ -88,7 +91,8 @@ class LunchIntegrationTest {
 
         var restaurant = new Restaurant(
                 "Broken Café",
-                "http://localhost:" + restaurantServer.port() + "/lunch"
+                "http://localhost:" + restaurantServer.port() + "/lunch",
+                null
         );
 
         var result = new LunchResult(restaurant, null, "HTTP error fetching URL");
@@ -102,7 +106,7 @@ class LunchIntegrationTest {
     }
 
     @Test
-    void scraperStripsScriptAndStyleTags(@TempDir Path outputDir) throws Exception {
+    void scraperStripsScriptAndStyleTags() {
         restaurantServer.stubFor(get("/menu").willReturn(ok()
                 .withHeader("Content-Type", "text/html; charset=utf-8")
                 .withBody("""
@@ -114,8 +118,7 @@ class LunchIntegrationTest {
                         </body></html>
                         """)));
 
-        var content = new LunchScraper()
-                .scrape("http://localhost:" + restaurantServer.port() + "/menu");
+        var content = scraper.scrape("http://localhost:" + restaurantServer.port() + "/menu");
 
         assertTrue(content.contains("Grillad lax"), "Main content should be present");
         assertFalse(content.contains("secret_token"), "Script content must be stripped");

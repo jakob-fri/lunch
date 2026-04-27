@@ -1,0 +1,24 @@
+- location: Innerstaden Linköping
+  restaurants:
+    - name: Grand
+      url: https://www.brasseriegrand.se/lunch
+    - name: Yogi
+      url: https://restaurangyogi.com/lunch
+    - name: Brasserit
+      url: https://brasseriebouquet.se/lunch
+    - name: Von dufva
+      url: https://stadsmissionenost.se/restaurang-von-dufva/lunch
+    - name: Cioccolata
+      url: https://www.cioccolata.nu/lunch/
+    - name: Claras coffee
+      url: https://clarascoffee.se/
+    - name: Ekkällan
+      url: https://ekkallanmatodryck.se/ekkallan-storgatan/
+- location: Mjärdevi
+  restaurants:
+    - name: Husman
+      url: https://restauranghusman.se/veckans-lunch/
+    - name: Chili Lime
+      url: https://www.chili-lime.se/helaveckan.asp
+    - name: Stångs
+      url: https://stangsmjardevi.se/

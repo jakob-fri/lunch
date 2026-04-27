@@ -23,9 +23,9 @@ public class DevServer {
         server.createContext("/", exchange -> {
             try {
                 String uriPath = exchange.getRequestURI().getPath();
-                if (uriPath.equals("/")) uriPath = "/index.html";
+                if (uriPath.equals("/") || uriPath.endsWith("/")) uriPath = uriPath + "index.html";
 
-                Path file = OUTPUT_DIR.resolve(uriPath.substring(1)).normalize();
+                Path file = OUTPUT_DIR.resolve(uriPath.substring(1)).normalize().toAbsolutePath();
 
                 // Prevent path traversal outside output dir
                 if (!file.startsWith(OUTPUT_DIR.toAbsolutePath()) || Files.isDirectory(file)) {

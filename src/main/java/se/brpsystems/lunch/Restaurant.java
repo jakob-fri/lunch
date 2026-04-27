@@ -1,3 +1,3 @@
 package se.brpsystems.lunch;
 
-public record Restaurant(String name, String url) {}
+public record Restaurant(String name, String url, String location) {}
