@@ -42,9 +42,17 @@ public class LunchScraper implements AutoCloseable {
     }
 
     private String doScrape(Page page, String url) {
-        page.navigate(url, new Page.NavigateOptions()
-                .setTimeout(30_000)
-                .setWaitUntil(WaitUntilState.NETWORKIDLE));
+        try {
+            page.navigate(url, new Page.NavigateOptions()
+                    .setTimeout(15_000)
+                    .setWaitUntil(WaitUntilState.NETWORKIDLE));
+        } catch (PlaywrightException e) {
+            if (!e.getMessage().contains("Timeout")) throw e;
+            // Site has continuous background activity; settle for load event instead
+            page.navigate(url, new Page.NavigateOptions()
+                    .setTimeout(30_000)
+                    .setWaitUntil(WaitUntilState.LOAD));
+        }
 
         String text = (String) page.evaluate("""
                 (() => {
