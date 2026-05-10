@@ -47,10 +47,39 @@ jobs:
       - name: Install Playwright browsers
         run: java -cp target/lunch-1.0-SNAPSHOT-jar-with-dependencies.jar com.microsoft.playwright.CLI install --with-deps chromium
 
+      - name: Fetch restaurant list from backend
+        run: |
+          set -euo pipefail
+          response=$(curl -fsS "${{ vars.LUNCH_BACKEND_URL }}/api/v1/restaurants")
+          python3 - "$response" <<'PYEOF'
+          import json, sys
+          from collections import defaultdict
+
+          restaurants = json.loads(sys.argv[1])
+
+          by_location = defaultdict(list)
+          for r in restaurants:
+              by_location[r["location"]].append({"name": r["name"], "url": r["url"]})
+
+          lines = []
+          for location, entries in by_location.items():
+              lines.append(f"- location: {location}")
+              lines.append("  restaurants:")
+              for e in entries:
+                  lines.append(f"    - name: {e['name']}")
+                  lines.append(f"      url: {e['url']}")
+
+          with open("/tmp/restaurants.yaml", "w") as f:
+              f.write("\n".join(lines) + "\n")
+
+          print(f"Wrote {len(restaurants)} restaurants across {len(by_location)} locations to /tmp/restaurants.yaml")
+          PYEOF
+
       - name: Run scraper
         env:
           OLLAMA_URL: http://localhost:11434
           OLLAMA_MODEL: llama3.2:3b
+          LUNCH_RESTAURANTS: /tmp/restaurants.yaml
         run: java -jar target/lunch-1.0-SNAPSHOT-jar-with-dependencies.jar
 
       - name: Deploy to GitHub Pages
