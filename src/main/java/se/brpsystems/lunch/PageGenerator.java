@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.WeekFields;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
@@ -30,7 +31,8 @@ public class PageGenerator {
 
     public String generateIndex(Set<String> locationNames, LocalDate date, String githubRepo) {
         String weekdayTitle = formatWeekday(date);
-        String fullDate = date.format(DATE_FMT);
+        int weekNum = date.get(WeekFields.ISO.weekOfWeekBasedYear());
+        String fullDate = date.format(DATE_FMT) + " · vecka " + weekNum;
 
         var html = new StringBuilder();
         appendPageStart(html, weekdayTitle, fullDate, weekdayTitle);
@@ -56,7 +58,10 @@ public class PageGenerator {
 
     public String generateLocationPage(String location, List<LunchResult> results, LocalDate date, String githubRepo) {
         String weekdayTitle = formatWeekday(date);
-        String fullDate = date.format(DATE_FMT);
+        int weekNum = date.get(WeekFields.ISO.weekOfWeekBasedYear());
+        String fullDate = location.isEmpty()
+                ? date.format(DATE_FMT) + " · vecka " + weekNum
+                : weekdayTitle + " " + date.format(DATE_FMT) + " · vecka " + weekNum;
         String title = location.isEmpty() ? weekdayTitle : escape(location);
 
         var html = new StringBuilder();

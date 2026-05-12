@@ -89,8 +89,9 @@ public class LlmClient implements MenuExtractor {
                   %s
                   """.formatted(restaurantName, content)
                 : """
-                  Format these Swedish lunch dishes as a clean list for %s (%s).
-                  One dish per line. Keep A./B./C. labels if present. No prices.
+                  Format these Swedish lunch dishes for %s (%s) as a clean list.
+                  Output only the dish names, one per line. No date, no day name, no headers, no prices.
+                  Keep A./B./C. labels if present.
                   If the text contains no dishes, respond with exactly: Ingen lunch hittad.
                   No other text.
 
@@ -139,6 +140,15 @@ public class LlmClient implements MenuExtractor {
             if (matchedDay != null) {
                 if (inTarget) break; // hit the next weekday — stop
                 inTarget = matchedDay.equals(weekday.toLowerCase());
+                if (inTarget) {
+                    // Capture dish content on the same line as the day heading (e.g. "Tisdag: [dish]")
+                    int sep = stripped.indexOf(':');
+                    if (sep < 0) sep = stripped.indexOf('–');
+                    if (sep >= 0) {
+                        String rest = stripped.substring(sep + 1).strip();
+                        if (!rest.isEmpty()) result.append(rest).append("\n");
+                    }
+                }
                 continue;
             }
 
@@ -149,7 +159,12 @@ public class LlmClient implements MenuExtractor {
                     if (lower.startsWith(stopWord)) { stop = true; break; }
                 }
                 if (stop) break;
-                if (!stripped.isEmpty()) result.append(stripped).append("\n");
+                if (!stripped.isEmpty()) {
+                    // Skip empty labels like "Veg:" with nothing after the colon
+                    int colonIdx = stripped.indexOf(':');
+                    if (colonIdx >= 0 && stripped.substring(colonIdx + 1).strip().isEmpty()) continue;
+                    result.append(stripped).append("\n");
+                }
             }
         }
 

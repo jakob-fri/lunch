@@ -48,15 +48,28 @@ public class LunchScraper implements AutoCloseable {
                     .setWaitUntil(WaitUntilState.NETWORKIDLE));
         } catch (PlaywrightException e) {
             if (!e.getMessage().contains("Timeout")) throw e;
-            // Site has continuous background activity; settle for load event instead
-            page.navigate(url, new Page.NavigateOptions()
-                    .setTimeout(30_000)
-                    .setWaitUntil(WaitUntilState.LOAD));
+            try {
+                // Site has continuous background activity; settle for load event instead
+                page.navigate(url, new Page.NavigateOptions()
+                        .setTimeout(30_000)
+                        .setWaitUntil(WaitUntilState.LOAD));
+            } catch (PlaywrightException e2) {
+                if (!e2.getMessage().contains("Timeout")) throw e2;
+                // Heavy resources (images/fonts) blocking load; DOM content is enough for text extraction
+                page.navigate(url, new Page.NavigateOptions()
+                        .setTimeout(30_000)
+                        .setWaitUntil(WaitUntilState.DOMCONTENTLOADED));
+            }
         }
 
         String text = (String) page.evaluate("""
                 (() => {
                     document.querySelectorAll('script,style,nav,footer,header,iframe,noscript').forEach(e => e.remove());
+                    // Remove elements hidden via inline opacity (anti-scraping watermarks)
+                    document.querySelectorAll('[style]').forEach(e => {
+                        const op = e.style.opacity;
+                        if (op !== '' && parseFloat(op) < 0.4) e.remove();
+                    });
                     return document.body.innerText;
                 })()
                 """);
