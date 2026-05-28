@@ -1,127 +1,94 @@
 package se.brpsystems.lunch;
 
-import com.github.tomakehurst.wiremock.WireMockServer;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.List;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
-import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
 import static org.junit.jupiter.api.Assertions.*;
 
-class LunchIntegrationTest {
+class LunchIntegrationTest extends ScraperTestBase {
 
     private static final LocalDate MONDAY = LocalDate.of(2026, 4, 20);
 
-    private WireMockServer restaurantServer;
-    private WireMockServer ollamaServer;
-    private LunchScraper scraper;
-
-    @BeforeEach
-    void setUp() {
-        restaurantServer = new WireMockServer(wireMockConfig().dynamicPort());
-        ollamaServer = new WireMockServer(wireMockConfig().dynamicPort());
-        restaurantServer.start();
-        ollamaServer.start();
-        scraper = new LunchScraper();
-    }
-
-    @AfterEach
-    void tearDown() {
-        scraper.close();
-        restaurantServer.stop();
-        ollamaServer.stop();
-    }
-
     @Test
-    void fullPipelineProducesPageWithExtractedMenu(@TempDir Path outputDir) throws Exception {
-        restaurantServer.stubFor(get("/lunch").willReturn(ok()
+    void defaultScraperExtractsDayGroupedMenu() {
+        server.stubFor(get("/lunch").willReturn(ok()
                 .withHeader("Content-Type", "text/html; charset=utf-8")
                 .withBody("""
                         <html><body>
-                          <h1>Veckans lunch</h1>
-                          <p>Måndag: Pasta Carbonara 105kr</p>
-                          <p>Vegetariskt: Röd linssoppa 90kr</p>
+                          <h2>Måndag</h2>
+                          <ul>
+                            <li>Pasta Carbonara 105kr</li>
+                            <li>Röd linssoppa 90kr</li>
+                          </ul>
                         </body></html>
                         """)));
 
-        ollamaServer.stubFor(post("/api/generate").willReturn(ok()
-                .withHeader("Content-Type", "application/json")
+        var restaurant = new Restaurant("UnknownCafe", server.url("/lunch"), "Test");
+        var scraper = ScraperRegistry.get(restaurant.name());
+
+        WeeklyMenu menu = scraper.scrape(page, restaurant.url());
+        var dishes = menu.forDay(DayOfWeek.MONDAY);
+
+        assertFalse(dishes.isEmpty());
+        assertTrue(dishes.stream().anyMatch(d -> d.description().contains("Pasta Carbonara")));
+    }
+
+    @Test
+    void fullPipelineProducesHtmlPage(@TempDir Path outputDir) throws Exception {
+        server.stubFor(get("/lunch").willReturn(ok()
+                .withHeader("Content-Type", "text/html; charset=utf-8")
                 .withBody("""
-                        {"response":"Pasta Carbonara - 105kr\\nRöd linssoppa (vegetarisk) - 90kr"}
+                        <html><body>
+                          <h2>Måndag</h2>
+                          <ul><li>Pasta Carbonara 105kr</li></ul>
+                        </body></html>
                         """)));
 
-        var restaurant = new Restaurant(
-                "Test Bistro",
-                "http://localhost:" + restaurantServer.port() + "/lunch",
-                null
-        );
+        var restaurant = new Restaurant("Test Bistro", server.url("/lunch"), "Test");
+        var scraper = ScraperRegistry.get(restaurant.name());
 
-        var llm = new LlmClient("http://localhost:" + ollamaServer.port(), "llama3.2:1b");
-        var generator = new PageGenerator();
+        WeeklyMenu menu = scraper.scrape(page, restaurant.url());
+        var dishes = menu.forDay(DayOfWeek.MONDAY);
+        var result = new LunchResult(restaurant, dishes, null);
 
-        String pageContent = scraper.scrape(restaurant.url());
-        String menu = llm.extractMenu(restaurant.name(), pageContent, MONDAY);
-        String html = generator.generate(List.of(new LunchResult(restaurant, menu, null)), MONDAY);
+        String html = new PageGenerator().generate(List.of(result), MONDAY);
         Files.createDirectories(outputDir);
         Files.writeString(outputDir.resolve("index.html"), html);
 
         String readHtml = Files.readString(outputDir.resolve("index.html"));
 
         assertTrue(readHtml.contains("Test Bistro"), "Restaurant name missing");
-        assertTrue(readHtml.contains("<li>Pasta Carbonara - 105kr</li>"), "Menu item missing");
-        assertTrue(readHtml.contains("Röd linssoppa"), "Second menu item missing");
-        assertTrue(readHtml.contains("Måndag"), "Weekday header missing");
+        assertTrue(readHtml.contains("<li>Pasta Carbonara 105kr</li>"), "Menu item missing");
         assertFalse(readHtml.contains("class=\"error\""), "Should not show error state");
-
-        ollamaServer.verify(postRequestedFor(urlEqualTo("/api/generate"))
-                .withRequestBody(containing("Test Bistro"))
-                .withRequestBody(containing("måndag")));
     }
 
     @Test
     void scrapingErrorShowsErrorCardInPage(@TempDir Path outputDir) throws Exception {
-        restaurantServer.stubFor(get("/lunch").willReturn(serverError()));
+        server.stubFor(get("/lunch").willReturn(serverError()));
 
-        var restaurant = new Restaurant(
-                "Broken Café",
-                "http://localhost:" + restaurantServer.port() + "/lunch",
-                null
-        );
+        var restaurant = new Restaurant("Broken Café", server.url("/lunch"), "Test");
+        LunchResult result;
+        try {
+            var scraper = ScraperRegistry.get(restaurant.name());
+            scraper.scrape(page, restaurant.url());
+            result = new LunchResult(restaurant, List.of(), null);
+        } catch (Exception e) {
+            result = new LunchResult(restaurant, null, "HTTP error fetching URL");
+        }
 
-        var result = new LunchResult(restaurant, null, "HTTP error fetching URL");
-        String htmlString = new PageGenerator().generate(List.of(result), MONDAY);
+        String html = new PageGenerator().generate(List.of(result), MONDAY);
         Files.createDirectories(outputDir);
-        Files.writeString(outputDir.resolve("index.html"), htmlString);
+        Files.writeString(outputDir.resolve("index.html"), html);
 
-        String html = Files.readString(outputDir.resolve("index.html"));
-        assertTrue(html.contains("Broken Café"));
-        assertTrue(html.contains("class=\"error\""));
-    }
-
-    @Test
-    void scraperStripsScriptAndStyleTags() {
-        restaurantServer.stubFor(get("/menu").willReturn(ok()
-                .withHeader("Content-Type", "text/html; charset=utf-8")
-                .withBody("""
-                        <html><body>
-                          <script>var x = secret_token;</script>
-                          <style>.foo { color: red }</style>
-                          <nav>Home | About</nav>
-                          <main>Grillad lax med potatismos 120kr</main>
-                        </body></html>
-                        """)));
-
-        var content = scraper.scrape("http://localhost:" + restaurantServer.port() + "/menu");
-
-        assertTrue(content.contains("Grillad lax"), "Main content should be present");
-        assertFalse(content.contains("secret_token"), "Script content must be stripped");
-        assertFalse(content.contains(".foo"), "Style content must be stripped");
+        String readHtml = Files.readString(outputDir.resolve("index.html"));
+        assertTrue(readHtml.contains("Broken Café"));
+        assertTrue(readHtml.contains("class=\"error\""));
     }
 }

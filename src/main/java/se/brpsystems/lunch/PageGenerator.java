@@ -2,17 +2,13 @@ package se.brpsystems.lunch;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.WeekFields;
-import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class PageGenerator {
 
@@ -191,7 +187,7 @@ public class PageGenerator {
 
     private void appendPageEnd(StringBuilder html) {
         html.append("""
-                    <footer>Uppdaterad automatiskt · GitHub Actions + Ollama</footer>
+                    <footer>Uppdaterad automatiskt · GitHub Actions</footer>
                   </div>
                 </body>
                 </html>
@@ -206,12 +202,13 @@ public class PageGenerator {
 
         if (!result.success()) {
             html.append("          <div class=\"error\">%s</div>\n".formatted(escape(result.error())));
-        } else if (isNoMenu(result.menu())) {
+        } else if (result.dishes() == null || result.dishes().isEmpty()) {
             html.append("          <div class=\"empty\">Ingen lunch hittad</div>\n");
         } else {
             html.append("          <ul>\n");
-            menuLines(result.menu())
-                    .forEach(line -> html.append("            <li>%s</li>\n".formatted(escape(line))));
+            for (Dish dish : result.dishes()) {
+                html.append("            <li>%s</li>\n".formatted(escape(dish.description())));
+            }
             html.append("          </ul>\n");
         }
 
@@ -222,39 +219,6 @@ public class PageGenerator {
     private String formatWeekday(LocalDate date) {
         String weekday = date.format(WEEKDAY_FMT);
         return weekday.substring(0, 1).toUpperCase() + weekday.substring(1);
-    }
-
-    private List<String> menuLines(String menu) {
-        List<String> lines = Arrays.stream(menu.split("\n"))
-                .map(String::trim)
-                .filter(line -> !line.isEmpty())
-                .collect(Collectors.toList());
-        // Strip stray "ingen lunch" / "no lunch menu" lines when real dish lines exist alongside them
-        boolean hasRealContent = lines.stream().anyMatch(l -> {
-            String ll = l.toLowerCase();
-            return !ll.contains("ingen lunch") && !ll.contains("no lunch menu");
-        });
-        if (hasRealContent) {
-            lines.removeIf(l -> {
-                String ll = l.toLowerCase();
-                return ll.contains("ingen lunch") || ll.contains("no lunch menu");
-            });
-        }
-        return lines;
-    }
-
-    private boolean isNoMenu(String menu) {
-        List<String> lines = menuLines(menu);
-        // Only "no menu" if there are no real dish lines alongside the phrase
-        boolean hasRealContent = lines.stream().anyMatch(l -> {
-            String ll = l.toLowerCase();
-            return !ll.contains("ingen lunch") && !ll.contains("no lunch menu");
-        });
-        if (hasRealContent) return false;
-        return lines.stream().anyMatch(l -> {
-            String ll = l.toLowerCase();
-            return ll.contains("ingen lunch") || ll.contains("no lunch menu");
-        });
     }
 
     private String faviconDataUri() {

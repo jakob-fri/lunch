@@ -1,0 +1,522 @@
+<!DOCTYPE html><html lang="sv" class="js no-touch svg inlinesvg svgclippaths no-ie8compat" style=""><head>
+<meta charset="utf-8">
+<base href="https://ekoxen.kvartersmenyn.se/">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta property="og:title" content="Quality Hotel Ekoxen  - Linköping">
+<meta property="og:description" content="">
+<meta property="og:type" content="restaurant">
+<meta property="og:url" content="http://kvartersmenyn.se">
+<meta property="og:image" content="http://www.kvartersmenyn.se/assets/img/logo.png">
+<meta property="og:site_name" content="Kvartersmenyn.se">
+
+<link rel="preconnect" href="//kvmmap.se">
+
+
+<!-- For IE 9 and below. ICO should be 32x32 pixels in size https-->
+<!--[if IE]><link rel="shortcut icon" href="https://www.kvmcdn.se/assets/favicon.ico"><![endif]-->
+<!-- IE 10+ "Metro" Tiles - 144x144 pixels in size -->
+<meta name="msapplication-TileColor" content="#FFFFFF">
+<meta name="msapplication-TileImage" content="https://www.kvmcdn.se/assets/tileicon.png">
+<!-- Touch Icons - iOS and Android 2.1+ 152x152 pixels in size. --> 
+<link rel="apple-touch-icon-precomposed" href="https://www.kvmcdn.se/assets/apple-touch-icon-precomposed.png">
+<!-- Firefox, Chrome, Safari, IE 11+ and Opera. 96x96 pixels in size. -->
+<link rel="icon" href="https://www.kvmcdn.se/assets/favicon.png">
+
+
+<title>Quality Hotel Ekoxen  Linköping Svenskt Restauranger kvartersmenyn.se</title> 
+<style>
+.map_popup .leaflet-popup-content h3 {font-size:20px;font-weight: bold;}
+.map_popup .leaflet-popup-content p {font-size:13px;color:#ffffff;}
+.map_popup .leaflet-popup-content a {color:#ffffff;}
+.map_popup .leaflet-popup-content-wrapper {
+background-color: #191E4F;
+}
+</style>
+
+
+<link rel="stylesheet" type="text/css" href="https://www.kvmcdn.se/assets/css/foundation.css">
+<link rel="stylesheet" type="text/css" href="https://www.kvmcdn.se/assets/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="https://www.kvmcdn.se/assets/fonts/montserrat/Montserrat.css">
+<!-- <link rel="stylesheet" type="text/css" href="https://cloud.typography.com/7657892/796788/css/fonts.css" /> -->
+<link rel="stylesheet" type="text/css" href="https://www.kvmcdn.se/assets/js/vendor/fancybox/jquery.fancybox.css" media="screen">
+<link rel="stylesheet" type="text/css" href="https://www.kvmcdn.se/assets/css/lightbox.css">
+<link rel="stylesheet" type="text/css" href="https://www.kvmcdn.se/assets/css/ui-smoothness/jquery-ui-1.10.3.custom.min.css" media="screen">
+
+<link rel="stylesheet" href="https://www.kvmcdn.se/assets/js/vendor/leaflet/leaflet.css" crossorigin="">
+<link rel="stylesheet" href="https://www.kvmcdn.se/assets/js/vendor/leaflet/fullscreen/Control.FullScreen.css">
+<link rel="stylesheet" href="https://www.kvmcdn.se/assets/js/vendor/leaflet/markercluster/MarkerCluster.css">
+<link rel="stylesheet" href="https://www.kvmcdn.se/assets/css/MarkerCluster.css">
+<link rel="stylesheet" href="https://www.kvmcdn.se/assets/js/vendor/leaflet/locatecontrol/L.Control.Locate.min.css">
+
+<script data-cfasync="false" type="text/javascript">
+var base_url = 'https://ekoxen.kvartersmenyn.se/';
+var base_domain = 'kvartersmenyn.se';
+var base_assets = 'https://www.kvmcdn.se/assets/';
+var base_counter = 'https://ekoxen.kvartersmenyn.se/n_start/counter/';
+
+var mapStartLatLng = [58.4056650000, 15.6242910000]; 
+
+document.domain = base_domain;
+favourites_arr = [];
+
+function callAjax(url) {
+var xmlhttp;
+xmlhttp = new XMLHttpRequest();
+xmlhttp.open("POST", url, true);
+xmlhttp.send();
+}
+function kvm_cr(t, r) {
+if (typeof (Storage) !== "undefined") {
+var old_time = localStorage.getItem("c_" + t + "_" + r);
+var timestamp = Date.now() / 1000 | 0;
+if (old_time === null || old_time < timestamp) {
+callAjax(base_counter + t + "/" + r);
+try {
+localStorage.setItem("c_" + t + "_" + r, timestamp + 3600);
+} catch (e) {
+}
+}
+
+}
+}
+kvm_cr('res4', 'xucpdxOmYTQT42qWzw1eWA..');
+</script>
+
+<script type="text/javascript" src="https://www.kvmcdn.se/assets/js/vendor/lazysizes.min.js" async=""></script>
+<script type="text/javascript" src="https://www.kvmcdn.se/assets/js/vendor/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="https://www.kvmcdn.se/assets/js/vendor/jquery-ui.min.js"></script>
+<script type="text/javascript" src="https://www.kvmcdn.se/assets/js/vendor/jQueryRotate.js"></script>
+<script type="text/javascript" src="https://www.kvmcdn.se/assets/js/vendor/jquery.shorten.js"></script>
+<script type="text/javascript" src="https://www.kvmcdn.se/assets/js/libs/jquery.cookie.js"></script>
+<script type="text/javascript" src="https://www.kvmcdn.se/assets/js/vendor/jquery.lightbox.min.js"></script>
+
+<script type="text/javascript" src="https://www.kvmcdn.se/assets/js/vendor/fancybox/jquery.fancybox.pack.js"></script>
+
+<script type="text/javascript" src="https://www.kvmcdn.se/assets/js/vendor/custom.modernizr.js"></script>
+<!-- <script data-cfasync="false" type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;libraries=geometry&amp;key=AIzaSyD8zc74y23hBJmC58QdfK6yJssaCCGVVNs"></script> -->
+<script type="text/javascript" src="https://www.kvmcdn.se/assets/js/vendor/leaflet/leaflet.js" crossorigin=""></script>
+<script type="text/javascript" src="https://www.kvmcdn.se/assets/js/vendor/leaflet/fullscreen/Control.FullScreen.js"></script>
+<script type="text/javascript" src="https://www.kvmcdn.se/assets/js/vendor/leaflet/markercluster/leaflet.markercluster.js"></script>
+<script type="text/javascript" src="https://www.kvmcdn.se/assets/js/vendor/leaflet/locatecontrol/L.Control.Locate.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="https://www.kvmcdn.se/assets/js/openstreetmap_embed.js"></script>
+<script type="text/javascript" src="https://www.kvmcdn.se/assets/js/script.js?d20150923"></script>
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-JW5LXE5154"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+
+gtag('config', 'G-JW5LXE5154');
+</script>
+<meta name="google-site-verification" content="9cIZFVhpDJpEhSD8uP_Ab4qQLg5EaRB25_c4Xx98vSo">
+<meta class="foundation-mq-small"><meta class="foundation-mq-medium"><meta class="foundation-mq-large"><style></style><style type="text/css">.fancybox-margin{margin-right:0px;}</style></head>
+<body>
+
+<div class="row">
+<div class="large-6 columns" id="logo">
+<a href="//www.kvartersmenyn.se"><img src="https://www.kvmcdn.se/assets/img/logo.png" alt="Kvartersmenyn" width="423" height="80"></a>
+</div>
+<div class="large-5 columns" style="float: right;">
+<a style="float:right; color: #3a338a; font-size: 11px; margin-top: 20px" class="link" href="https://www.kvartersmenyn.se/index.php/login" data-reveal-id="login">
+<b>LOGGA IN SOM KRÖGARE</b>
+</a>
+
+<div style="margin-top: 40px;">	
+<form action="https://www.kvartersmenyn.se/index.php/" method="post" accept-charset="utf-8" id="searchbox"><span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span><input style="float:left; width: 340px; height: 45px;" type="text" placeholder="Skriv in restaurangnamn eller ort" name="find" id="autocompleteall" class="ui-widget ui-autocomplete-input" autocomplete="off">
+<input type="submit" class="small button" style="float: right; height: 45px; width: auto; padding-top: 12px; font-size: 16px;text-transform: uppercase;" value="Hitta >">
+<input name="s" value="_" hidden="hidden">
+</form></div>
+
+</div>
+</div>
+
+
+	
+
+
+	
+
+<div class="row">
+<div class="large-12 columns">
+<nav class="top-bar">
+				
+<section class="top-bar-section">
+
+<ul class="left">
+<li><a href="https://www.kvartersmenyn.se/" style="">Start</a></li><li><a href="https://www.kvartersmenyn.se/takeaway/" style="background-color:#FABF1A !important;color:#191E4F !important;">Takeaway</a></li><li><a href="https://www.kvartersmenyn.se/delivery/" style="background-color:#FDE5A3 !important;color:#191E4F !important;">Utkörning</a></li><li><a href="https://www.kvartersmenyn.se/catering/" style="">Catering</a></li><li><a href="https://www.kvartersmenyn.se/conference/" style="">Konferens &amp; Festvåning</a></li><li><a href="https://www.kvartersmenyn.se/book_table/" style="">Boka bord</a></li><li><a href="https://www.kvartersmenyn.se/index.php/article/help" style="">Hjälp</a></li></ul>
+
+	
+
+
+<ul class="right">
+<li><a href="https://www.kvartersmenyn.se/index.php/fav" style=""><i class="fa fa-star" style="color:#DAAFC5;"></i> Favoriter <span class="favourite-count"></span></a></li></ul>
+</section></nav>
+</div>
+</div>
+
+
+<div class="row">
+<div class="large-8 column">
+<ul itemscope="" itemtype="http://schema.org/BreadcrumbList" class="breadcrumbs">
+<li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+<a href="https://www.kvartersmenyn.se/index.php/" itemscope="" itemtype="http://schema.org/Thing" itemprop="item"><span itemprop="name">START</span></a><meta itemprop="position" content="1">
+</li>
+<li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+<a href="https://www.kvartersmenyn.se/index.php/linkoping" itemscope="" itemtype="http://schema.org/Thing" itemprop="item"><span itemprop="name">Linköping</span></a><meta itemprop="position" content="2">
+</li>
+<li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+<a href="https://www.kvartersmenyn.se/index.php/linkoping/area/linkoping_252/keyword/svenskt_3178" itemscope="" itemtype="http://schema.org/Thing" itemprop="item"><span itemprop="name">Svenskt</span></a><meta itemprop="position" content="3">
+</li>
+<li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+<a href="https://www.kvartersmenyn.se/index.php/rest/16271" itemscope="" itemtype="http://schema.org/Thing" itemprop="item"><span itemprop="name">Quality Hotel Ekoxen </span></a><meta itemprop="position" content="4">
+</li>
+</ul>
+</div>
+<div class="large-4 column" style="float: right;">
+<p style="font-size: 12px; float: right; color: #10a19a;">
+<b><a href="https://www.kvartersmenyn.se/index.php/linkoping/area/linkoping_252/keyword/svenskt_3178" style="color: #10a19a;" class="link"> &lt; TILLBAKA</a></b>
+</p>
+</div>
+</div>
+
+
+
+
+
+<!-- Main Page Content and Sidebar -->
+<style>
+    .orbit-bullets { display: none; }
+
+    .orbit-container .orbit-prev,
+    .orbit-container .orbit-next {
+        display: block;
+    }
+</style>
+<div class="row" itemscope="" itemtype="http://schema.org/Restaurant">
+
+    <!-- Navigation Box Lunch Start -->
+
+    <div class="large-8 columns" role="content">
+        <div class="panel" style="height:120px;margin-bottom:0;padding:0;">
+            <!-- Logo -->
+            <div style="position: absolute; right: 0; top: 0; z-index: 2; height: 120px; line-height: 120px;">
+                
+                                    <img itemprop="image" src="https://www.kvmcdn.se/images/logos_small/16271.jpg" style="padding-right:30px;vertical-align:middle;" alt="">
+                            </div>
+
+            <div class="name" style="left:2em;height:65px;">
+                <h5 itemprop="name" style="margin-top: -3px;">Quality Hotel Ekoxen </h5>
+                <p><span itemprop="servesCuisine">Svenskt</span></p>
+            </div>
+
+            <div class="divider" style="height:55px;left:0;top:65px;">
+
+                <div class="name" style="left:20px;font-size: 12px; font-weight: bold; width: 70%; white-space: no-wrap;">
+                    <a href="https://www.kvartersmenyn.se/index.php/rest/16271/4" itemprop="menu">Lunchmeny</a>                </div>
+            </div>
+        </div>
+        <div class="slideshow-wrapper">
+            <div class="orbit-container"><ul id="featured1" data-orbit="" class="orbit-slides-container" style="height: 295px;">
+                                                            
+
+                        <a href="https://www.kvmcdn.se/files/img/8/228818-898E8F76-2445-4FB3-988F-BBE1C82F6DFC_org.jpeg" data-lightbox="rest-images" data-title="Quality Hotel Ekoxen  - 898E8F76-2445-4FB3-988F-BBE1C82F6DFC.jpeg" class="active">
+                            <li><img itemprop="image" src="https://www.kvmcdn.se/files/img/8/228818-898E8F76-2445-4FB3-988F-BBE1C82F6DFC_big.jpeg" alt="228818-898E8F76-2445-4FB3-988F-BBE1C82F6DFC.jpeg"></li>
+                        </a>
+
+                                            
+
+                        <a href="https://www.kvmcdn.se/files/img/9/228819-E61BC088-3E2B-41C1-BC3C-0CBC3A53FA73_org.jpeg" data-lightbox="rest-images" data-title="Quality Hotel Ekoxen  - E61BC088-3E2B-41C1-BC3C-0CBC3A53FA73.jpeg">
+                            <li><img itemprop="image" src="https://www.kvmcdn.se/files/img/9/228819-E61BC088-3E2B-41C1-BC3C-0CBC3A53FA73_big.jpeg" alt="228819-E61BC088-3E2B-41C1-BC3C-0CBC3A53FA73.jpeg"></li>
+                        </a>
+
+                                            
+
+                        <a href="https://www.kvmcdn.se/files/img/10/228820-5170360A-3D7F-4CEB-8AD7-59BED4D60AAD_org.jpeg" data-lightbox="rest-images" data-title="Quality Hotel Ekoxen  - 5170360A-3D7F-4CEB-8AD7-59BED4D60AAD.jpeg">
+                            <li><img itemprop="image" src="https://www.kvmcdn.se/files/img/10/228820-5170360A-3D7F-4CEB-8AD7-59BED4D60AAD_big.jpeg" alt="228820-5170360A-3D7F-4CEB-8AD7-59BED4D60AAD.jpeg"></li>
+                        </a>
+
+                                            
+
+                        <a href="https://www.kvmcdn.se/files/img/11/228821-79FAE88D-BD3B-4207-B9DC-ECED560A8927_org.jpeg" data-lightbox="rest-images" data-title="Quality Hotel Ekoxen  - 79FAE88D-BD3B-4207-B9DC-ECED560A8927.jpeg">
+                            <li><img itemprop="image" src="https://www.kvmcdn.se/files/img/11/228821-79FAE88D-BD3B-4207-B9DC-ECED560A8927_big.jpeg" alt="228821-79FAE88D-BD3B-4207-B9DC-ECED560A8927.jpeg"></li>
+                        </a>
+
+                                            
+
+                        <a href="https://www.kvmcdn.se/files/img/12/228822-8F53290F-C6A5-49F5-A197-21F0988A52B7_org.jpeg" data-lightbox="rest-images" data-title="Quality Hotel Ekoxen  - 8F53290F-C6A5-49F5-A197-21F0988A52B7.jpeg">
+                            <li><img itemprop="image" src="https://www.kvmcdn.se/files/img/12/228822-8F53290F-C6A5-49F5-A197-21F0988A52B7_big.jpeg" alt="228822-8F53290F-C6A5-49F5-A197-21F0988A52B7.jpeg"></li>
+                        </a>
+
+                                            
+
+                        <a href="https://www.kvmcdn.se/files/img/13/228823-3F4414EB-15A5-4A23-84B1-6218705F2775_org.jpeg" data-lightbox="rest-images" data-title="Quality Hotel Ekoxen  - 3F4414EB-15A5-4A23-84B1-6218705F2775.jpeg">
+                            <li><img itemprop="image" src="https://www.kvmcdn.se/files/img/13/228823-3F4414EB-15A5-4A23-84B1-6218705F2775_big.jpeg" alt="228823-3F4414EB-15A5-4A23-84B1-6218705F2775.jpeg"></li>
+                        </a>
+
+                                            
+
+                        <a href="https://www.kvmcdn.se/files/img/14/228824-BCAE5B5C-0354-4C52-8184-C28C8CE33A7E_org.jpeg" data-lightbox="rest-images" data-title="Quality Hotel Ekoxen  - BCAE5B5C-0354-4C52-8184-C28C8CE33A7E.jpeg">
+                            <li><img itemprop="image" src="https://www.kvmcdn.se/files/img/14/228824-BCAE5B5C-0354-4C52-8184-C28C8CE33A7E_big.jpeg" alt="228824-BCAE5B5C-0354-4C52-8184-C28C8CE33A7E.jpeg"></li>
+                        </a>
+
+                                            
+
+                        <a href="https://www.kvmcdn.se/files/img/0/228825-8F8BA2EA-643F-46EC-B75B-9A5B24A3F241_org.jpeg" data-lightbox="rest-images" data-title="Quality Hotel Ekoxen  - 8F8BA2EA-643F-46EC-B75B-9A5B24A3F241.jpeg">
+                            <li><img itemprop="image" src="https://www.kvmcdn.se/files/img/0/228825-8F8BA2EA-643F-46EC-B75B-9A5B24A3F241_big.jpeg" alt="228825-8F8BA2EA-643F-46EC-B75B-9A5B24A3F241.jpeg"></li>
+                        </a>
+
+                    
+                            </ul><a href="#" class="orbit-prev"><span></span></a><a href="#" class="orbit-next"><span></span></a><div class="orbit-slide-number"><span>1</span> of <span>8</span></div><ol class="orbit-bullets"><li data-orbit-slide="0" class="active"></li><li data-orbit-slide="1"></li><li data-orbit-slide="2"></li><li data-orbit-slide="3"></li><li data-orbit-slide="4"></li><li data-orbit-slide="5"></li><li data-orbit-slide="6"></li><li data-orbit-slide="7"></li></ol></div>
+        </div>
+
+                <div id="restaurangbeskrivning" class="panel" style="padding-left: 30px; padding-right: 30px; min-height: 40px; max-height: auto;">
+        </div>
+
+        <!-- Book takeaway online -->
+        
+        
+        <!-- Show the menu -->
+
+        <div class="divider-full" style="top: 5px; left: 0px; padding-left: 30px; padding-right: 30px; margin-bottom: 40px; margin-top:-25px;">
+
+            <h5 style="color: #191e4f;">
+                Lunchmeny            </h5>
+
+                            <p style="font-size: 10px; margin-top: -15px; color: #191E4F;">11:30 - 13:30</p>
+                <p style="font-size: 11px; margin-top: -15px; color: #191E4F;">Pris 138:-</p>
+                <p style="font-size: 11px; color: #191E4F;"><b>VECKA 22, 2026</b></p>
+            
+            <div class="day" style="margin-bottom: 0px;">
+                                    <div class="meny" style="clear:left;line-height:1.6em;padding-bottom:2em;"><strong>Måndag</strong><br>Grillad fläskkotlett med pepparsås, haricots verts och&nbsp; rostad potatis&nbsp;<br>Sprödbakad flundra med skolans dillsås, ärtor, citron och kokt potatis<br>Vegetarisk Bolognese med pasta&nbsp; tortiglioni och riven parmesan<br>Caesarsallad med kyckling<i style="opacity: 0.1;color: #eee;">pogre</i><br><br><strong>Tisdag</strong><br>Nattbakad fläskkarré med bearnaisesås, rödvinssås, örtsmör, broccoli och potatisgratäng&nbsp;<i style="opacity: 0.1;color: #eee;">baj</i><br>Pestobakad laxfilé med gräslökshollandaise, broccoli och potatisgratäng<i style="opacity: 0.1;color: #eee;">cci</i><br>Vegetarisk Bolognese med pasta&nbsp; tortiglioni och riven parmesan<i style="opacity: 0.1;color: #eee;">bdg</i><br>Caesarsallad med kyckling<i style="opacity: 0.1;color: #eee;">fi</i><br><br><strong>Onsdag</strong><br>Västerbottengostratinerad kycklingfilé med café de Parissås, rostade grönsaker och klyftpotatis&nbsp;<br>Panerad sej med romsås, citron, ärtor och kokt potatis<br>Vegetarisk Bolognese med pasta&nbsp; tortiglioni och riven parmesan<br>Caesarsallad med kyckling<br><br><strong>Torsdag</strong><br>Jägarschnitzel med smörstekta morötter, svampsås, svartvinbärsgelé och stekt potatis<br>Mandelbakad kolja med vitvinssås, smörstekta morötter och kokt potatis&nbsp;<br>Vegetarisk Bolognese med pasta&nbsp; tortiglioni och riven parmesan<br>Caesarsallad med kyckling<br><br><strong>Fredag</strong><br>Wallenbergare med skirat smör, ärtor, rårörda lingon och potatismos<br>Laxwallenbergare med skagenröra, citron, ärtor och potatismos<br>Vegetarisk Bolognese med pasta&nbsp; tortiglioni och riven parmesan<br>Caesarsallad med kyckling<br></div>
+                                                    <div class="meny" style="clear:left;line-height:1.6em;padding-top:2em;border-top:1px solid #191e4f"><b>PRIS: 138:-</b><br>Inkl. smör, bröd, bordsvatten, liten kaka<br>Mat för avhämtning&nbsp;<b>119:-</b><br><br><b>Öppet:</b><br><b>Lunch: Mån</b><b>-Fre</b>&nbsp;11:30-13:30&nbsp;<br><b>Middag: Mån-Tors&nbsp;</b>17:00-21:30<br><b>Middag: Fre-Lör</b>&nbsp;16:00-21:30</div>
+                            </div>
+
+        </div>
+    </div>
+
+    <!-- End Menu List -->
+
+
+    <!-- End Main Content -->
+
+
+    <!-- Sidebar Start -->
+
+    <aside class="large-4 columns">
+        <div class="panel" style="height: auto;">
+            <h6 style="text-transform: uppercase;">Alternativ</h6>
+            <div>
+                
+                <ul class="button-list" style="float: right; list-style: none; margin-top: -25px;">
+                    <li><i class="fa fa-envelope" style="color:#50758E;"></i>
+                        <a href="https://www.kvartersmenyn.se/index.php/subscribe/16271" class="small button subscribe fancybox fancybox.iframe" style="min-width: 140px; min-height: 32px; font-size: 12px;">
+                               PRENUMERERA                        </a>
+                    </li>
+                    <li class="togglefav" data-restid="16271" data-idc="xucpdxOmYTQT42qWzw1eWA..">
+                        <i class="fa fa-star" style="color:#50758E;"></i>
+                        <a href="#" class="small button favourite" style="min-width: 140px; min-height: 32px; font-size: 12px;">
+                            <span class="show fav16271-add">+</span>
+                            <span class="hide fav16271-del">-</span>
+                            FAVORIT                        </a>
+                    </li>
+                                            <li><i class="fa fa-clock-o" style="color:#50758E;"></i>
+                            <a href="https://www.kvartersmenyn.se/index.php/book/16271" class="small button bokning fancybox fancybox.iframe" style="min-width: 140px; min-height: 32px; font-size: 12px; background-color: #fabf1a; border-bottom: solid 4px #d49e07; text-transform: uppercase;">
+                                   Bokningsförf.                            </a>
+                        </li>
+                                    </ul>
+
+                                                                                    
+                <br>
+                <a href="https://www.kvartersmenyn.se/index.php/output/menu/16271/menu/P/20260528" class="fancybox fancybox.iframe" style="color:#23194D;">
+                    <i class="fa fa-print" style="color:#50758E;" title="Skriv ut"></i> Skriv ut                </a><br>
+                <br>
+                <br>
+                <br>
+
+            </div>
+            <div class="divider-sidebar">
+                <h6 style="text-transform: uppercase;">Öppettider</h6>
+                <br>
+                <br>
+
+                <table class="oppettider">
+                    <tbody><tr><td><p>Mån-Fre<br>Lör<br></p></td><td><p>11:30-21:30<br>16:00-21:30<br></p></td></tr>                </tbody></table>
+            </div>
+            <div itemprop="address" itemscope="" itemtype="http://schema.org/PostalAddress" style="margin-top: 70px;">
+                <h6 style="text-transform: uppercase;">Adress</h6>
+                <p>
+                    <span itemprop="streetAddress">Klostergatan 68</span><br>
+                    <span itemprop="addressLocality">Linköping</span>
+                </p>
+            </div>
+
+                            <div class="divider-sidebar">
+                    <h6 style="text-transform: uppercase;">Telefon</h6>
+                    <p itemprop="telephone">013252600</p>
+                </div>
+            
+            <div class="hitta">
+                <h6 style="text-transform: uppercase;">Se karta!</h6>
+
+                                <div class="panel leaflet-container leaflet-touch leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom" id="map_canvas" style="height: 250px; text-align: center; padding: 0px !important; position: relative;" tabindex="0">
+                <div class="leaflet-pane leaflet-map-pane" style="transform: translate3d(0px, 0px, 0px);"><div class="leaflet-pane leaflet-tile-pane"><div class="leaflet-layer " style="z-index: 1; opacity: 1;"><div class="leaflet-tile-container leaflet-zoom-animated" style="z-index: 17; transform: translate3d(0px, 0px, 0px) scale(1);"><img alt="" role="presentation" src="//kvmmap.se/hot/15/17805/9798.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-131px, -211px, 0px); opacity: 1;"><img alt="" role="presentation" src="//kvmmap.se/hot/15/17806/9798.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(125px, -211px, 0px); opacity: 1;"><img alt="" role="presentation" src="//kvmmap.se/hot/15/17805/9799.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-131px, 45px, 0px); opacity: 1;"><img alt="" role="presentation" src="//kvmmap.se/hot/15/17806/9799.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(125px, 45px, 0px); opacity: 1;"></div></div></div><div class="leaflet-pane leaflet-shadow-pane"><img src="https://www.kvmcdn.se/assets/js/vendor/leaflet/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" alt="" style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(3px, 17px, 0px);"><img src="https://www.kvmcdn.se/assets/js/vendor/leaflet/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" alt="" style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(165px, 125px, 0px);"><img src="https://www.kvmcdn.se/assets/js/vendor/leaflet/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" alt="" style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(189px, -110px, 0px);"><img src="https://www.kvmcdn.se/assets/js/vendor/leaflet/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" alt="" style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(134px, -139px, 0px);"></div><div class="leaflet-pane leaflet-overlay-pane"></div><div class="leaflet-pane leaflet-marker-pane"><img src="https://www.kvmcdn.se/assets/js/vendor/leaflet/images/marker-icon.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" title="Drottningbaren" alt="Drottningbaren" tabindex="0" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(3px, 17px, 0px); z-index: 17;"><img src="https://www.kvmcdn.se/assets/js/vendor/leaflet/images/marker-icon.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" title="Quality Hotel Ekoxen" alt="Quality Hotel Ekoxen" tabindex="0" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(165px, 125px, 0px); z-index: 125;"><img src="https://www.kvmcdn.se/assets/js/vendor/leaflet/images/marker-icon.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" title="Crepino" alt="Crepino" tabindex="0" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(189px, -110px, 0px); z-index: -110;"><img src="https://www.kvmcdn.se/assets/js/vendor/leaflet/images/marker-icon.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" title="Cioccolata Bistro" alt="Cioccolata Bistro" tabindex="0" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(134px, -139px, 0px); z-index: -139;"><div class="leaflet-marker-icon marker-cluster marker-cluster-small leaflet-zoom-animated leaflet-interactive" tabindex="0" style="margin-left: -20px; margin-top: -20px; width: 40px; height: 40px; transform: translate3d(84px, -138px, 0px); z-index: -138;"><div><span>3</span></div></div></div><div class="leaflet-pane leaflet-tooltip-pane"></div><div class="leaflet-pane leaflet-popup-pane"></div><div class="leaflet-proxy leaflet-zoom-animated" style="transform: translate3d(4.55838e+06px, 2.50862e+06px, 0px) scale(16384);"></div></div><div class="leaflet-control-container"><div class="leaflet-top leaflet-left"><div class="leaflet-control-zoom leaflet-bar leaflet-control"><a class="leaflet-control-zoom-in" href="#" title="Zoom in" role="button" aria-label="Zoom in">+</a><a class="leaflet-control-zoom-out" href="#" title="Zoom out" role="button" aria-label="Zoom out">−</a><a class="leaflet-control-zoom-fullscreen" href="#" title="Full Screen"></a></div></div><div class="leaflet-top leaflet-right"></div><div class="leaflet-bottom leaflet-left"></div><div class="leaflet-bottom leaflet-right"><div class="leaflet-control-locate leaflet-bar leaflet-control"><a class="leaflet-bar-part leaflet-bar-part-single" title="Min position"><span class="fa fa-map-marker"></span></a></div><div class="leaflet-control-attribution leaflet-control"><a href="http://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> | Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors</div></div></div></div>
+
+                <!-- <div id="map_canvas" style="width: 340px; height: 250px; text-align: center;">
+                </div> -->
+                <br>
+                <p style="display:none;">Få vägbeskrivning</p>
+            </div>
+
+                            <div class="divider-sidebar" style="top: -40px; margin-bottom: -20px;">
+                    <h6 style="text-transform: uppercase;">Hemsida</h6>
+                    <p>
+                        <a href="http://www.nordicchoice.se" style="color: #191e4f;">www.nordicchoice.se</a>                    </p>
+                </div>
+            
+
+            
+                    </div>
+
+
+    </aside>
+
+    <!-- End Sidebar -->
+
+</div>
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Organization",
+  "url": "https://ekoxen.kvartersmenyn.se",
+  "logo": "https://www.kvmcdn.se/images/logos_small/16271.jpg"
+}
+</script>
+
+<!-- End Main Content and Sidebar -->
+
+
+
+
+<div class="footer-wrapper">
+<div id="footer">
+<div class="row">
+<div class="large-3 columns">
+<div style="text-align: center;">
+<ul style="list-style-type: none;">
+<li class="active"><b>START</b></li><li><a href="https://www.kvartersmenyn.se/index.php/article/aboutus" style="">Om oss</a></li><li><a href="https://www.kvartersmenyn.se/index.php/article/press" style="">Press</a></li><li><a href="https://www.kvartersmenyn.se/index.php/article/web_gdpr" style="">Integritetsskyddspolicy</a></li><li><a href="https://www.kvartersmenyn.se/index.php/article/web_hotlink" style="">Hotlinking</a></li></ul>
+</div>
+</div>
+
+<div class="large-3 columns">
+<div style="text-align: center;">
+<ul style="list-style-type: none;">
+<li class="active"><b>SUPPORT</b></li><li><a href="https://www.kvartersmenyn.se/index.php/article/faq" style="">Frågor &amp; svar</a></li><li><a href="https://www.kvartersmenyn.se/index.php/article/contact" style="">Kontakta oss</a></li><li><a href="https://www.kvartersmenyn.se/index.php/article/newuser" style="">Skapa Profil</a></li></ul>
+</div>
+</div>
+
+<div class="large-3 columns">
+<div style="text-align: center;">
+<ul style="list-style-type: none; color: #fff;">
+<li class="active"><b>KRÖGARE</b></li><li><a href="https://www.kvartersmenyn.se/index.php/new_rest" style="">Anslut din restaurang</a></li><li><a href="http://www.kvartersmenynplus.se" target="_blank" style="">Kvartersmenyn+</a></li><li><a href="https://www.kvartersmenyn.se/allmannavillkor/" style="">Allmänna villkor</a></li></ul>
+</div>
+</div>
+
+<div class="large-3 columns">
+<div style="text-align: center;">
+<ul style="list-style-type: none;">
+<li class="active"><b>FÖLJ OSS</b></li><li><a href="https://sv-se.facebook.com/kvartersmenyn" target="_blank" style="">Facebook</a></li><li><a href="https://www.instagram.com/kvartersmenyn/" target="_blank" style="">Instagram</a></li></ul>
+</div>
+</div>
+</div>
+
+
+<div class="row">
+<div align="center" style="text-align:center; line-height: 150%; font-size: 12px;"> <br><a href="https://www.kvartersmenyn.se/index.php/stockholm">Stockholm</a> | <a href="https://www.kvartersmenyn.se/index.php/goteborg">Göteborg</a> | <a href="https://www.kvartersmenyn.se/index.php/arboga">Arboga</a> | <a href="https://www.kvartersmenyn.se/index.php/enkoping">Enköping</a> | <a href="https://www.kvartersmenyn.se/index.php/eskilstuna">Eskilstuna</a> | <a href="https://www.kvartersmenyn.se/index.php/falun">Falun</a> | <a href="https://www.kvartersmenyn.se/index.php/gavle">Gävle</a> | <a href="https://www.kvartersmenyn.se/index.php/helsingborg">Helsingborg</a> | <a href="https://www.kvartersmenyn.se/index.php/jonkoping">Jönköping</a> | <a href="https://www.kvartersmenyn.se/index.php/karlstad">Karlstad</a> | <a href="https://www.kvartersmenyn.se/index.php/kil">Kil</a> | <a href="https://www.kvartersmenyn.se/index.php/kumla">Kumla</a> | <a href="https://www.kvartersmenyn.se/index.php/kungsbacka">Kungsbacka</a> | <a href="https://www.kvartersmenyn.se/index.php/kungalv">Kungälv</a> | <a href="https://www.kvartersmenyn.se/index.php/linkoping">Linköping</a> | <a href="https://www.kvartersmenyn.se/index.php/norrkoping">Norrköping</a> | <a href="https://www.kvartersmenyn.se/index.php/sala">Sala</a> | <a href="https://www.kvartersmenyn.se/index.php/skovde">Skövde</a> | <a href="https://www.kvartersmenyn.se/index.php/sodertalje">Södertälje</a> | <a href="https://www.kvartersmenyn.se/index.php/trollhattan">Trollhättan</a> | <a href="https://www.kvartersmenyn.se/index.php/uddevalla">Uddevalla</a> | <a href="https://www.kvartersmenyn.se/index.php/uppsala">Uppsala</a> | <a href="https://www.kvartersmenyn.se/index.php/varberg">Varberg</a> | <a href="https://www.kvartersmenyn.se/index.php/varnamo">Värnamo</a> | <a href="https://www.kvartersmenyn.se/index.php/orebro">Örebro</a> </div>    <br>
+</div>
+</div>
+</div>
+ 
+
+<div>
+<div class="row">
+<div class="large-12 columns" style="text-align: right;">
+<p><small>© 1998 - 2026 Copyright Kvartersmenyn. Allt material på hemsidan är skyddat enligt upphovsrättslagen.</small></p>
+</div>
+</div>
+</div>
+
+ 	  	
+
+
+<script type="text/javascript" src="https://www.kvmcdn.se/assets/js/foundation/foundation.js"></script>  
+<script type="text/javascript" src="https://www.kvmcdn.se/assets/js/foundation/foundation.topbar.js"></script>
+<script type="text/javascript" src="https://www.kvmcdn.se/assets/js/foundation/foundation.dropdown.js"></script>
+<script type="text/javascript" src="https://www.kvmcdn.se/assets/js/foundation/foundation.orbit.js"></script>
+
+<script type="text/javascript">
+$(document).foundation();
+</script>
+
+
+<!-- <script type="text/javascript" src="https://www.kvmcdn.se/assets/js/libs/infobox_packed.js"></script> -->
+
+
+<script type="text/javascript">
+
+$(document).ready(function () {
+
+initmap();
+
+// Front hider
+var value = 0;
+$("#trigger").click(function (event) {
+event.preventDefault();
+$("#showorhide").slideToggle("slow");
+value += 180;
+$(this).rotate({animateTo: value});
+});
+
+// Hider
+var value = 0;
+$("#showorhidetrigger").click(function (event) {
+event.preventDefault();
+if ($("#showorhidecanvas").is(':visible')) {
+$(this).text('Visa fler alternativ');
+} else {
+$(this).text('Dölj alternativen');
+}
+$("#showorhidecanvas").slideToggle("slow");
+// value += 180;
+// $(this).rotate({animateTo: value});
+});
+
+// Long text hider
+$(".showMore").shorten({
+moreText: '<span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x" style="color:#EB5855;"></i><i class="fa fa-angle-down fa-stack-2x" style="color:#FFFFFF;"></i></span>',
+lessText: '<span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x" style="color:#EB5855;"></i><i class="fa fa-angle-up fa-stack-2x" style="color:#FFFFFF;"></i></span>',
+showChars: 250
+});
+});
+
+function copyHtml(source, dest) {
+var firstDivContent = document.getElementById(source);
+var secondDivContent = document.getElementById(dest);
+secondDivContent.innerHTML = firstDivContent.innerHTML;
+}
+
+function copyRest(restId) {
+copyHtml('resth_' + restId, 'resth');
+copyHtml('restm_' + restId, 'restm');
+var idc = $('#resth_' + restId).data('idc');
+kvm_cr("map2", idc);
+}
+
+</script>
+
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a02eaa54f9375693',t:'MTc3OTk4NjA1MQ=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><iframe height="1" width="1" style="position: absolute; top: 0px; left: 0px; border: none; visibility: hidden;"></iframe>
+
+<div id="lightboxOverlay" class="lightboxOverlay" style="display: none;"></div><div id="lightbox" class="lightbox" style="display: none;"><div class="lb-outerContainer"><div class="lb-container"><img class="lb-image" src=""><div class="lb-nav"><a class="lb-prev" href=""></a><a class="lb-next" href=""></a></div><div class="lb-loader"><a class="lb-cancel"></a></div></div></div><div class="lb-dataContainer"><div class="lb-data"><div class="lb-details"><span class="lb-caption"></span><span class="lb-number"></span></div><div class="lb-closeContainer"><a class="lb-close"></a></div></div></div></div><ul class="ui-autocomplete ui-front ui-menu ui-widget ui-widget-content ui-corner-all" id="ui-id-1" tabindex="0" style="display: none;"></ul></body></html>

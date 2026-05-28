@@ -1,6 +1,8 @@
 package se.brpsystems.lunch;
 
-public record LunchResult(Restaurant restaurant, String menu, String error) {
+import java.util.List;
+
+public record LunchResult(Restaurant restaurant, List<Dish> dishes, String error) {
     public boolean success() {
         return error == null;
     }

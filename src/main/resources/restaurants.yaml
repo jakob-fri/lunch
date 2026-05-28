@@ -14,6 +14,14 @@
       url: https://clarascoffee.se/
     - name: Ekkällan
       url: https://ekkallanmatodryck.se/ekkallan-storgatan/
+    - name: Tropikhuset
+      url: https://belvederen-tropikhuset.se/dagens-lunch/
+    - name: Ekoxen
+      url: https://ekoxen.kvartersmenyn.se/
+    - name: ÖK Smak & Tak
+      url: https://oksmakochtak.se/lunchmeny/
+    - name: Bistro Cô Minh
+      url: https://www.bistrocominh.se/lunch
 - location: Mjärdevi
   restaurants:
     - name: Husman
